@@ -1,24 +1,15 @@
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const merge = require('webpack-merge');
+const base = require('./webpack.config.common');
 
 const port = process.env.PORT || 3000;
 
-module.exports = {
+const config = {
   entry: ['react-hot-loader/patch', './src/index.tsx'],
-  output: {
-    filename: 'js/bundle.[hash].js',
-    path: path.resolve(__dirname, 'public'),
-    publicPath: '/'
-  },
   devtool: 'inline-source-map',
   module: {
     rules: [
-      {
-        test: /\.(tsx|ts|d.ts)$/,
-        exclude: /node_modules/,
-        loaders: ['ts-loader']
-      },
       {
         test: /\.scss$/,
         use: [
@@ -40,13 +31,7 @@ module.exports = {
       }
     ]
   },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-  },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/template/index.html'
-    }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
@@ -59,3 +44,7 @@ module.exports = {
     hot: true
   }
 }
+
+const devConfig = merge(base, config);
+
+module.exports = devConfig;

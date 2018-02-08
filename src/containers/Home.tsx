@@ -5,7 +5,7 @@ import Layout from './Layout';
 
 const Home: React.StatelessComponent<{}> = () => (
   <Layout>
-    <Title title="Компонент Home 1" />
+    <Title title="Компонент Home 2" />
     <Link to="/dynamic" >На динамическую страницу</Link>
   </Layout>
 );

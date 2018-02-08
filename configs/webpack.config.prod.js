@@ -3,15 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
+const merge = require('webpack-merge');
 
-module.exports = {
-  entry: ['./src/App.tsx'],
-  output: {
-    filename: 'js/bundle.[hash].js',
-    path: path.resolve(__dirname, '../public'),
-    publicPath: '/'
-  },
-  devtool: 'source-map',
+const base = require('./webpack.config.common');
+
+const config = {
+  entry: ['./src/index.tsx'],
   module: {
     rules: [
       {
@@ -53,9 +50,6 @@ module.exports = {
       }
     ]
   },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -74,8 +68,9 @@ module.exports = {
       filename: 'css/styles.[contenthash].css',
       allChunks: true
     }),
-    new HtmlWebpackPlugin({
-      template: './src/template/index.html'
-    }),
   ]
 }
+
+const prodConfig = merge(base, config);
+
+module.exports = prodConfig;
